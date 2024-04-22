@@ -434,6 +434,28 @@ VALUES
 (6, '555-555-0102', '7', 1);
 ```
 
+
+**Normalización**
+
+**1FN**
+
+- La información de cada tabla no depende del orden en la cuál se ingreso cada registro
+
+- Cada una de las tablas posee una llave primaria, y las tablas intermedias como detalle_compra y detalle_pedido tienen una llave primaria compuesta.
+- No existen grupo repetidos en ninguna de las tablas. En el caso de la información de proveedor que existía en producto, se asumió que un producto podría tener más de un proveedor. Con el objetivo de crear múltiples columnas de proveedor dentro de producto según fuera necesario (proveedor 1, proveedor 2, proveedor 3...) se creó una tabla de proveedor.
+
+**2FN**
+
+Cada atributo de cada una de las tablas está asociado únicamente a dicha entidad, es decir, toda la información de cada tabla corresponde específicamente a esa entidad. 
+
+**3FN**
+
+En ninguna de las tablas existe dependencia de alguno de sus atributos de manera indirecta hacia la llave primaria. Todos sus campos dependen de la llave primaria y los campos que referencian información de otras tablas se relacionan mediante un índice, evitando generar inconsistencias a la hora de ingresar información. Por ejemplo los códigos de estado en pedido.
+
+**4FN**
+
+No hay dependencias multivaluadas en las tablas.
+
 **Consultas sobre una tabla**
 
 1. Devuelve un listado con el código de oficina y la ciudad donde hay oficinas.
@@ -469,7 +491,7 @@ VALUES
    Empty set 
    ```
 3. Devuelve un listado con el nombre, apellidos y email de los empleados cuyo
-  jefe tiene un código de jefe igual a 7.
+    jefe tiene un código de jefe igual a 7.
 
   ```
   SELECT e.nombre, e.apellido1, e.apellido2, e.email
@@ -479,7 +501,7 @@ VALUES
   Empty set
   ```
 4. Devuelve el nombre del puesto, nombre, apellidos y email del jefe de la
-  empresa.
+    empresa.
 
   ```sql
   SELECT e. puesto, e.nombre, e.apellido1, e.apellido2, e.email
@@ -493,7 +515,7 @@ VALUES
   +------------+--------+-----------+-----------+------------------------------+
   ```
 5. Devuelve un listado con el nombre, apellidos y puesto de aquellos
-  empleados que no sean representantes de ventas.
+    empleados que no sean representantes de ventas.
 
   ```sql
   SELECT e.nombre, e.apellido1, e.apellido2, e.puesto
@@ -528,7 +550,7 @@ VALUES
    Empty set
    ```
 7. Devuelve un listado con los distintos estados por los que puede pasar un
-  pedido.
+    pedido.
 
   ```sql
   SELECT id, nombre
@@ -543,11 +565,11 @@ VALUES
   +----+------------+
   ```
 8. Devuelve un listado con el código de cliente de aquellos clientes que
-  realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar
-  aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta:
-  • Utilizando la función YEAR de MySQL.
-  • Utilizando la función DATE_FORMAT de MySQL.
-  • Sin utilizar ninguna de las funciones anteriores.
+    realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar
+    aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta:
+    • Utilizando la función YEAR de MySQL.
+    • Utilizando la función DATE_FORMAT de MySQL.
+    • Sin utilizar ninguna de las funciones anteriores.
 
   ```sql
   SELECT DISTINCT id_cliente
@@ -565,10 +587,10 @@ VALUES
   Empty set
   ```
 
-  
+
 9. Devuelve un listado con el código de pedido, código de cliente, fecha
-  esperada y fecha de entrega de los pedidos que no han sido entregados a
-  tiempo.
+    esperada y fecha de entrega de los pedidos que no han sido entregados a
+    tiempo.
 
   ```sql
   SELECT id, id_cliente, fecha_esperada, fecha_entrega
@@ -585,7 +607,7 @@ VALUES
   +-------+------------+----------------+---------------+
   ```
 
-  
+
 10. Devuelve un listado con el código de pedido, código de cliente, fecha
     esperada y fecha de entrega de los pedidos cuya fecha de entrega ha sido al
     menos dos días antes de la fecha esperada.
@@ -615,7 +637,6 @@ VALUES
     +-------+------------+----------------+---------------+
     ```
 
-    
 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
 
     ```sql
@@ -630,7 +651,6 @@ VALUES
     +------+--------------+-----------+------------------------------+
     ```
 
-    
 12. Devuelve un listado de todos los pedidos que han sido entregados en el
     mes de enero de cualquier año.
 
@@ -666,7 +686,6 @@ VALUES
     Empty set
     ```
 
-    
 14. Devuelve un listado con todas las formas de pago que aparecen en la
     tabla pago. Tenga en cuenta que no deben aparecer formas de pago
     repetidas.
@@ -685,7 +704,6 @@ VALUES
     +----+---------------------+
     ```
 
-    
 15. Devuelve un listado con todos los productos que pertenecen a la
     gama Ornamentales y que tienen más de 100 unidades en stock. El listado
     deberá estar ordenado por su precio de venta, mostrando en primer lugar
@@ -701,7 +719,6 @@ VALUES
     Empty set
     ```
 
-    
 16. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y
     cuyo representante de ventas tenga el código de empleado 11 o 30.
 
@@ -721,7 +738,7 @@ VALUES
 **Consultas multitabla (Composición interna)**
 
 1. Obtén un listado con el nombre de cada cliente y el nombre y apellido de su
-  representante de ventas.
+    representante de ventas.
 
   ```sql
   SELECT c.id, c.nombre, c.apellido, e.nombre AS NombreRepresentante, e.apellido1 AS ApellidoRepresentante
@@ -740,7 +757,7 @@ VALUES
   +----+---------+------------+---------------------+-----------------------
   ```
 2. Muestra el nombre de los clientes que hayan realizado pagos junto con el
-  nombre de sus representantes de ventas.
+    nombre de sus representantes de ventas.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre AS NombreRepresentante, e.apellido1 AS ApellidoRepresentante
@@ -760,7 +777,7 @@ VALUES
   +---------+------------+---------------------+-----------------------+
   ```
 3. Muestra el nombre de los clientes que no hayan realizado pagos junto con
-  el nombre de sus representantes de ventas.
+    el nombre de sus representantes de ventas.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre AS NombreRepresentante, e.apellido1 AS ApellidoRepresentante
@@ -772,10 +789,10 @@ VALUES
   Empty set
   ```
 
-  
+
 4. Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus
-  representantes junto con la ciudad de la oficina a la que pertenece el
-  representante.
+    representantes junto con la ciudad de la oficina a la que pertenece el
+    representante.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre AS NombreRepresentante, e.apellido1 AS ApellidoRepresentante, ciu.nombre AS CiudadOficina
@@ -797,10 +814,10 @@ VALUES
   +---------+------------+---------------------+-----------------------+---------------+
   ```
 
-  
+
 5. Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre
-  de sus representantes junto con la ciudad de la oficina a la que pertenece el
-  representante.
+    de sus representantes junto con la ciudad de la oficina a la que pertenece el
+    representante.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre AS NombreRepresentante, e.apellido1 AS ApellidoRepresentante, ciu.nombre AS ciudadOficina
@@ -814,7 +831,7 @@ VALUES
   Empty set
   ```
 
-  
+
 6. Lista la dirección de las oficinas que tengan clientes en Fuenlabrada.
 
    ```sql
@@ -831,7 +848,7 @@ VALUES
    Empty set
    ```
 7. Devuelve el nombre de los clientes y el nombre de sus representantes junto
-  con la ciudad de la oficina a la que pertenece el representante.
+    con la ciudad de la oficina a la que pertenece el representante.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre AS NombreRepresentante, e.apellido1 AS ApellidoRepresentante, ciu.nombre AS ciudadOficina
@@ -852,7 +869,7 @@ VALUES
   +---------+------------+---------------------+-----------------------+---------------+
   ```
 8. Devuelve un listado con el nombre de los empleados junto con el nombre
-  de sus jefes.
+    de sus jefes.
 
   ```sql
   SELECT e.nombre, e.apellido1,j.nombre AS nombreJefe, j.apellido1 AS apellidoJefe
@@ -886,7 +903,7 @@ VALUES
   
 
 9. Devuelve un listado que muestre el nombre de cada empleados, el nombre
-  de su jefe y el nombre del jefe de sus jefe.
+    de su jefe y el nombre del jefe de sus jefe.
 
   ```sql
   SELECT e.nombre, e.apellido1, j.nombre AS nombreJefe, j.apellido1 AS apellidoJefe, jj.nombre AS nombreJefeDelJefe, jj.apellido1 AS apellidoJefeDelJefe
@@ -916,7 +933,7 @@ VALUES
   +----------+-----------+------------+--------------+-------------------+---------------------+
   ```
 
-  
+
 10. Devuelve el nombre de los clientes a los que no se les ha entregado a
     tiempo un pedido.
 
@@ -936,7 +953,6 @@ VALUES
     +--------+----------+
     ```
 
-    
 11. Devuelve un listado de las diferentes gamas de producto que ha comprado
     cada cliente.
 
@@ -970,7 +986,7 @@ VALUES
     **Consultas multitabla (Composición externa)**
 
     1. Devuelve un listado que muestre solamente los clientes que no han
-      realizado ningún pago.
+        realizado ningún pago.
 
       ```sql
       SELECT c.nombre, c.apellido
@@ -981,7 +997,7 @@ VALUES
       Empty set
       ```
     2. Devuelve un listado que muestre solamente los clientes que no han
-      realizado ningún pedido.
+        realizado ningún pedido.
 
       ```sql
       SELECT c.nombre, c.apellido
@@ -992,7 +1008,7 @@ VALUES
       Empty set
       ```
     3. Devuelve un listado que muestre los clientes que no han realizado ningún
-      pago y los que no han realizado ningún pedido.
+        pago y los que no han realizado ningún pedido.
 
       ```sql
       SELECT c.nombre, c.apellido
@@ -1004,7 +1020,7 @@ VALUES
       Empty set
       ```
     4. Devuelve un listado que muestre solamente los empleados que no tienen
-      una oficina asociada.
+        una oficina asociada.
 
       ```sql
       SELECT e.nombre, e.apellido
@@ -1015,7 +1031,7 @@ VALUES
       Empty set
       ```
     5. Devuelve un listado que muestre solamente los empleados que no tienen un
-      cliente asociado.
+        cliente asociado.
 
       ```sql
       SELECT e.nombre, e.apellido
@@ -1026,7 +1042,7 @@ VALUES
       Empty set
       ```
     6. Devuelve un listado que muestre solamente los empleados que no tienen un
-      cliente asociado junto con los datos de la oficina donde trabajan.
+        cliente asociado junto con los datos de la oficina donde trabajan.
 
       ```sql
       SELECT e.nombre, e.apellido1, o.id AS cod_oficina, ciu.nombre, o.codigo_postal AS cod_postal
@@ -1038,9 +1054,9 @@ VALUES
       Empty set
       ```
 
-      
+    
     7. Devuelve un listado que muestre los empleados que no tienen una oficina
-      asociada y los que no tienen un cliente asociado.
+        asociada y los que no tienen un cliente asociado.
 
       ```
       SELECT e.nombre, e.apellido1
@@ -1052,9 +1068,9 @@ VALUES
       Empty set
       ```
 
-      
+    
     8. Devuelve un listado de los productos que nunca han aparecido en un
-      pedido.
+        pedido.
 
       ```sql
       SELECT p.nombre
@@ -1065,10 +1081,10 @@ VALUES
       Empty set
       ```
 
-      
+    
     9. Devuelve un listado de los productos que nunca han aparecido en un
-      pedido. El resultado debe mostrar el nombre, la descripción y la imagen del
-      producto.
+        pedido. El resultado debe mostrar el nombre, la descripción y la imagen del
+        producto.
 
       ```sql
       SELECT p.nombre, p.descripcion
@@ -1099,10 +1115,9 @@ VALUES
         Empty set
         ```
 
-        
     11. Devuelve un listado con los clientes que han realizado algún pedido pero no
         han realizado ningún pago.
-
+    
         ```sql
         SELECT c.nombre, c.apellido1
         FROM cliente AS c
@@ -1110,11 +1125,10 @@ VALUES
         LEFT JOIN pago AS pa ON c.id = pa.id_cliente
         WHERE p.id IS NOT NULL AND pa.id IS NULL;
         ```
-
-        
+    
     12. Devuelve un listado con los datos de los empleados que no tienen clientes
         asociados y el nombre de su jefe asociado.
-
+    
         ```sql
         SELECT e.nombre, e.apellido1, j.nombre AS NombreJefe, j.apellido1 AS ApellidoJefe
         FROM empleado AS e
@@ -1140,7 +1154,7 @@ VALUES
         | Peter          | Marsh            | Barry      | Jones        |
         +----------------+------------------+------------+--------------+
         ```
-
+    
         **Consultas resumen**
 
         1. ¿Cuántos empleados hay en la compañía?
@@ -1156,7 +1170,7 @@ VALUES
            +----------------+
            ```
         2. ¿Cuántos clientes tiene cada país?
-
+    
            ```sql
            SELECT pais.nombre AS Pais, COUNT(cliente.id) AS TotalClientes
            FROM cliente
@@ -1174,10 +1188,9 @@ VALUES
            | México         |             3 |
            +----------------+---------------+
            ```
-
-           
+    
         3. ¿Cuál fue el pago medio en 2009?
-
+        
            ```sql
            SELECT AVG(total) AS Media
            FROM pago
@@ -1189,11 +1202,10 @@ VALUES
            |  NULL |
            +-------+
            ```
-
-           
+        
         4. ¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma
-          descendente por el número de pedidos.
-
+            descendente por el número de pedidos.
+        
           ```sql
           SELECT estado.nombre, COUNT(estado.nombre) AS TotalPedidos
           FROM pedido
@@ -1210,11 +1222,11 @@ VALUES
           | Rechazado  |            1 |
           +------------+--------------+
           ```
-
-          
+        
+        
         5. Calcula el precio de venta del producto más caro y más barato en una
-          misma consulta.
-
+            misma consulta.
+        
           ```sql
           SELECT max(producto.precio_venta) as MasCaro, min(producto.precio_venta) as MasBarato
           FROM producto;
@@ -1225,10 +1237,10 @@ VALUES
           |   98.58 |     31.92 |
           +---------+-----------+
           ```
-
-          
+        
+        
         6. Calcula el número de clientes que tiene la empresa.
-
+        
            ```sql
            SELECT COUNT(cliente.id) AS TotalClientes
            FROM cliente;
@@ -1239,10 +1251,9 @@ VALUES
            |            10 |
            +---------------+
            ```
-
-           
+        
         7. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?
-
+    
            ```sql
            SELECT COUNT(DISTINCT cliente.id) AS clientesMadrid
            FROM cliente
@@ -1256,11 +1267,10 @@ VALUES
            |              0 |
            +----------------+
            ```
-
-           
+        
         8. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan
-          por M?
-
+            por M?
+    
           ```sql
           SELECT COUNT(c.id) AS clientesCiudadPorM
           FROM cliente AS c
@@ -1274,11 +1284,11 @@ VALUES
           |                  3 |
           +--------------------+
           ```
-
-          
+        
+        
         9. Devuelve el nombre de los representantes de ventas y el número de clientes
-          al que atiende cada uno.
-
+            al que atiende cada uno.
+    
           ```sql
           SELECT e.nombre, e.apellido1, COUNT(c.id) AS NumeroClientes
           FROM empleado AS e
@@ -1301,11 +1311,11 @@ VALUES
           | Peter    | Marsh     |              0 |
           +----------+-----------+----------------+
           ```
-
-          
+        
+        
         10. Calcula el número de clientes que no tiene asignado representante de
             ventas.
-
+    
             ```sql
             SELECT COUNT(cliente.id) AS NumeroClientesSinRepresentante
             FROM cliente
@@ -1319,7 +1329,7 @@ VALUES
             ```
         11. Calcula la fecha del primer y último pago realizado por cada uno de los
             clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente.
-
+        
             ```sql
             SELECT c.nombre,c.apellido,MIN(p.fecha) AS PrimerPago, MAX(p.fecha) AS UltimoPago
             FROM cliente AS c
@@ -1341,11 +1351,10 @@ VALUES
             | Susan     | Nelson     | 2023-01-19 | 2023-01-19 |
             +-----------+------------+------------+------------+
             ```
-
-            
+        
         12. Calcula el número de productos diferentes que hay en cada uno de los
             pedidos.
-
+        
             ```sql
             SELECT id_pedido,COUNT(DISTINCT id_producto) AS NumProductosDiferentes
             FROM detalle_pedido
@@ -1362,12 +1371,12 @@ VALUES
             |     10104 |                      2 |
             +-----------+------------------------+
             ```
-
+        
             
-
+        
         13. Calcula la suma de la cantidad total de todos los productos que aparecen en
             cada uno de los pedidos.
-
+    
             ```sql
             SELECT id_pedido, SUM(cantidad) AS CantidadTotalProductos
             FROM detalle_pedido
@@ -1384,12 +1393,11 @@ VALUES
             |     10104 |                      6 |
             +-----------+------------------------+
             ```
-
-            
+        
         14. Devuelve un listado de los 20 productos más vendidos y el número total de
             unidades que se han vendido de cada uno. El listado deberá estar ordenado
             por el número total de unidades vendidas.
-
+        
             ```sql
             SELECT dp.id_producto,p.nombre,SUM(dp.cantidad) AS TotalVendidas
             FROM detalle_pedido AS dp
@@ -1413,14 +1421,13 @@ VALUES
             | S12_3990    | 1970 Plymouth Hemi Cuda               |             1 |
             +-------------+---------------------------------------+---------------+
             ```
-
-            
+        
         15. La facturación que ha tenido la empresa en toda la historia, indicando la
             base imponible, el IVA y el total facturado. La base imponible se calcula
             sumando el coste del producto por el número de unidades vendidas de la
             tabla detalle_pedido. El IVA es el 21 % de la base imponible, y el total la
             suma de los dos campos anteriores.
-
+    
             ```sql
             SELECT SUM(base_imponible) AS TotalBaseImponible, SUM(iva) AS TotalIVA, SUM(total_facturado) AS FacturacionTotal
             FROM (
@@ -1436,11 +1443,10 @@ VALUES
             |            1668.67 | 350.4207 |        2019.0907 |
             +--------------------+----------+------------------+
             ```
-
-            
+        
         16. La misma información que en la pregunta anterior, pero agrupada por
             código de producto.
-
+        
             ```sql
             SELECT SUM(base_imponible) AS TotalBaseImponible, SUM(iva) AS TotalIVA, SUM(total_facturado) AS FacturacionTotal
             FROM (
@@ -1456,11 +1462,10 @@ VALUES
             |            1479.57 | 310.7097 |        1790.2797 |
             +--------------------+----------+------------------+
             ```
-
-            
+        
         17. La misma información que en la pregunta anterior, pero agrupada por
             código de producto filtrada por los códigos que empiecen por OR.
-
+        
             ```sql
             SELECT SUM(base_imponible) AS TotalBaseImponible, SUM(iva) AS TotalIVA, SUM(total_facturado) AS FacturacionTotal
             FROM (
@@ -1478,12 +1483,11 @@ VALUES
             |               NULL |     NULL |             NULL |
             +--------------------+----------+------------------+
             ```
-
-            
+        
         18. Lista las ventas totales de los productos que hayan facturado más de 3000
             euros. Se mostrará el nombre, unidades vendidas, total facturado y total
             facturado con impuestos (21% IVA).
-
+        
             ```sql
             SELECT p.nombre,SUM(dp.cantidad) AS UnidadesVendidas,SUM(dp.precio_unidad * dp.cantidad) AS TotalFacturado, SUM(dp.precio_unidad* dp.cantidad) * 1.21 AS TotalFacturadoConIVA
             FROM detalle_pedido AS dp
@@ -1493,11 +1497,10 @@ VALUES
             
             Empty set
             ```
-
-            
+    
         19. Muestre la suma total de todos los pagos que se realizaron para cada uno
             de los años que aparecen en la tabla pagos.
-
+        
             ```sql
             SELECT YEAR(fecha) AS Año, SUM(total) AS TotalPagado
             FROM pago
@@ -1509,14 +1512,14 @@ VALUES
             | 2023 |    13320.77 |
             +------+-------------+
             ```
-
+        
             
 
 **Consultas variadas**
 
 1. Devuelve el listado de clientes indicando el nombre del cliente y cuántos
-  pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no
-  han realizado ningún pedido.
+    pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no
+    han realizado ningún pedido.
 
   ```sql
   SELECT c.nombre AS NombreCliente, COUNT(p.id) AS PedidosRealizados
@@ -1540,10 +1543,10 @@ VALUES
   +---------------+-------------------+
   ```
 
-  
+
 2. Devuelve un listado con los nombres de los clientes y el total pagado por
-  cada uno de ellos. Tenga en cuenta que pueden existir clientes que no han
-  realizado ningún pago.
+    cada uno de ellos. Tenga en cuenta que pueden existir clientes que no han
+    realizado ningún pago.
 
   ```sql
   
@@ -1563,9 +1566,9 @@ VALUES
   +---------------+-------------+
   ```
 
-  
+
 3. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008
-  ordenados alfabéticamente de menor a mayor.
+    ordenados alfabéticamente de menor a mayor.
 
   ```
   SELECT c.nombre AS NombreCliente
@@ -1577,9 +1580,9 @@ VALUES
   Empty set
   ```
 
-  
+
 4. Devuelve el nombre del cliente, el nombre y primer apellido de su
-  representante de ventas y el número de teléfono de la oficina del representante de ventas, de aquellos clientes que no hayan realizado ningún pago.
+    representante de ventas y el número de teléfono de la oficina del representante de ventas, de aquellos clientes que no hayan realizado ningún pago.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre as NombreRepresentante, e.apellido1 as ApellidoRepresentante, telOfi.telefono AS Telefono_Oficina
@@ -1596,8 +1599,8 @@ VALUES
   
 
 5. Devuelve el listado de clientes donde aparezca el nombre del cliente, el
-  nombre y primer apellido de su representante de ventas y la ciudad donde
-  está su oficina.
+    nombre y primer apellido de su representante de ventas y la ciudad donde
+    está su oficina.
 
   ```sql
   SELECT c.nombre, c.apellido, e.nombre as NombreRepresentante, e.apellido1, ciu.nombre
@@ -1619,9 +1622,9 @@ VALUES
   +---------+------------+---------------------+-----------+-------------+
   ```
 
-  
+
 6. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos
-  empleados que no sean representante de ventas de ningún cliente.
+    empleados que no sean representante de ventas de ningún cliente.
 
   ```sql
   SELECT e.nombre as NombreRepresentante, e.apellido1, telOfi.telefono AS Telefono_Oficina
@@ -1648,9 +1651,9 @@ VALUES
   +---------------------+-----------+------------------+
   ```
 
-  
+
 7. Devuelve un listado indicando todas las ciudades donde hay oficinas y el
-  número de empleados que tiene.
+    número de empleados que tiene.
 
   ```sql
   SELECT ciu.nombre, COUNT(e.id) AS NumeroEmpleados
